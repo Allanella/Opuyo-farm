@@ -21,17 +21,24 @@ const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ]
 
-// ─── FIXED SINGLE LOGO CONTAINER ─────────────────────────────────────────────
+// Array of background visuals used for dynamic header ambient shifting before scrolling
+const dynamicBgImages = [
+  '/images/hero-farm-1.jpg',
+  '/images/hero-farm-2.jpg',
+  '/images/hero-farm-3.jpg'
+]
+
+// ─── FIXED ROUNDED LOGO CONTAINER ───────────────────────────────────────────
 function LogoMark() {
   return (
-    <div className="relative w-9 h-9 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center overflow-hidden">
+    <div className="relative w-9 h-9 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/[0.03]">
       <Image
         src="/image.png" 
         alt="Opuyo Mixed Demonstration Farm Logo"
         width={40} 
         height={40}
         priority
-        className="object-contain"
+        className="object-contain rounded-full"
       />
     </div>
   )
@@ -83,38 +90,44 @@ function NavLink({
         onNavigate(item.href)
       }}
       className="relative px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] transition-colors duration-200 group"
-      // Updated colors: Uses rich crisp Veg Green (#16a34a) on active scroll state
       style={{ color: isActive
-        ? (scrolled ? '#16a34a' : '#4ade80')
-        : (scrolled ? 'rgba(13,34,16,0.65)' : 'rgba(240,236,224,0.65)')
+        ? '#4ade80'
+        : (scrolled ? 'rgba(232,245,236,0.65)' : 'rgba(240,236,224,0.65)')
       }}
     >
       {item.label}
       <motion.span
         layoutId="nav-dot"
-        className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-        // Active tracking indicator dots updated to vibrant light green
-        style={{ background: scrolled ? '#16a34a' : '#4ade80' }}
+        className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#4ade80]"
+        style={{ shadow: '0 0 8px rgba(74,222,128,0.5)' }}
         initial={false}
         animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0 }}
         transition={{ duration: 0.2 }}
       />
       <span
-        className="absolute bottom-0 left-3.5 right-3.5 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
-        style={{ background: scrolled ? '#16a34a' : 'rgba(74,222,128,0.4)' }}
+        className="absolute bottom-0 left-3.5 right-3.5 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200 bg-[#4ade80]/40"
       />
     </a>
   )
 }
 
-// ─── MAIN NAVBAR (FIXED EXPORT DECLARATION) ──────────────────────────────────
+// ─── MAIN NAVBAR ─────────────────────────────────────────────────────────────
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [bgIndex, setBgIndex] = useState(0)
   const active = useActiveSection(navItems)
   
   const router = useRouter()
   const pathname = usePathname()
+
+  // Background cyclic transition engine loop
+  useEffect(() => {
+    const bgTimer = setInterval(() => {
+      setBgIndex((prev) => (prev + 1) % dynamicBgImages.length)
+    }, 5000)
+    return () => clearInterval(bgTimer)
+  }, [])
 
   useEffect(() => {
     const onScroll = () => {
@@ -160,18 +173,39 @@ export const Navbar: React.FC = () => {
             borderBottomWidth: scrolled ? 1 : 0,
           }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="mx-auto w-full overflow-hidden"
+          className="mx-auto w-full overflow-hidden relative"
           style={{
-            background: scrolled
-              ? 'rgba(247,245,240,0.94)'
-              : 'linear-gradient(180deg, rgba(2,8,2,0.72) 0%, rgba(2,8,2,0.0) 100%)',
-            backdropFilter: 'blur(16px)',
-            borderColor: scrolled ? 'rgba(22,163,74,0.12)' : 'transparent',
+            background: scrolled ? 'rgba(10,15,12,0.75)' : 'transparent',
+            backdropFilter: 'blur(20px)',
+            borderColor: scrolled ? 'rgba(74,222,128,0.15)' : 'transparent',
             borderStyle: 'solid',
           }}
         >
+          {/* Dynamic Image Canvas: Controls seamless changing transitions when unscrolled */}
+          <AnimatePresence mode="wait">
+            {!scrolled && (
+              <motion.div
+                key={bgIndex}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.18 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 1.2, ease: 'easeInOut' }}
+                className="absolute inset-0 -z-10 pointer-events-none mix-blend-luminosity"
+              >
+                <Image
+                  src={dynamicBgImages[bgIndex]}
+                  alt="Dynamic Background Layer"
+                  fill
+                  priority
+                  className="object-cover scale-105 filter blur-sm"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-transparent" />
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <Container>
-            <div className="flex items-center justify-between py-3.5">
+            <div className="flex items-center justify-between py-3.5 relative z-10">
               
               {/* Logo / Brand Container */}
               <a 
@@ -185,8 +219,7 @@ export const Navbar: React.FC = () => {
                 <LogoMark />
                 
                 <span 
-                  className="font-bold text-[11px] sm:text-[13px] uppercase tracking-[0.16em] sm:tracking-[0.2em] transition-colors duration-200 whitespace-nowrap"
-                  style={{ color: scrolled ? '#0d2210' : '#f0ece0' }}
+                  className="font-bold text-[11px] sm:text-[13px] uppercase tracking-[0.16em] sm:tracking-[0.2em] transition-colors duration-200 whitespace-nowrap text-[#e8f5ec]"
                 >
                   Opuyo Mixed Demonstration Farm
                 </span>
@@ -208,8 +241,7 @@ export const Navbar: React.FC = () => {
               {/* Mobile Menu Trigger */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="md:hidden p-2 z-50 rounded-full transition-colors duration-200"
-                style={{ color: scrolled || isOpen ? '#0d2210' : '#f0ece0' }}
+                className="md:hidden p-2 z-50 rounded-full text-[#e8f5ec] transition-colors duration-200"
                 aria-label="Toggle Menu"
               >
                 {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -227,7 +259,7 @@ export const Navbar: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/20 backdrop-blur-md z-40 md:hidden"
+            className="fixed inset-0 bg-black/60 backdrop-blur-md z-40 md:hidden"
             onClick={() => setIsOpen(false)}
           >
             <motion.div
@@ -235,7 +267,7 @@ export const Navbar: React.FC = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="absolute top-0 right-0 bottom-0 w-[280px] bg-[#f7f5f0] p-6 pt-24 flex flex-col gap-6 shadow-2xl"
+              className="absolute top-0 right-0 bottom-0 w-[280px] bg-[#0a0f0c] border-l border-white/5 p-6 pt-24 flex flex-col gap-6 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               {navItems.map((item) => (
@@ -246,8 +278,8 @@ export const Navbar: React.FC = () => {
                     e.preventDefault()
                     handleNavigation(item.href, () => setIsOpen(false))
                   }}
-                  className="text-sm font-bold uppercase tracking-[0.15em] py-2 border-b border-gray-200 transition-colors"
-                  style={{ color: pathname === '/' && active === item.href ? '#16a34a' : 'rgba(13,34,16,0.6)' }}
+                  className="text-sm font-bold uppercase tracking-[0.15em] py-2 border-b border-white/5 transition-colors"
+                  style={{ color: pathname === '/' && active === item.href ? '#4ade80' : 'rgba(232,245,236,0.6)' }}
                 >
                   {item.label}
                 </a>
