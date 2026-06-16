@@ -83,29 +83,31 @@ function NavLink({
         onNavigate(item.href)
       }}
       className="relative px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] transition-colors duration-200 group"
+      // Updated colors: Uses rich crisp Veg Green (#16a34a) on active scroll state
       style={{ color: isActive
-        ? (scrolled ? '#2d5c3e' : '#72c492')
-        : (scrolled ? 'rgba(13,34,16,0.55)' : 'rgba(240,236,224,0.65)')
+        ? (scrolled ? '#16a34a' : '#4ade80')
+        : (scrolled ? 'rgba(13,34,16,0.65)' : 'rgba(240,236,224,0.65)')
       }}
     >
       {item.label}
       <motion.span
         layoutId="nav-dot"
         className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
-        style={{ background: scrolled ? '#3d7a52' : '#72c492' }}
+        // Active tracking indicator dots updated to vibrant light green
+        style={{ background: scrolled ? '#16a34a' : '#4ade80' }}
         initial={false}
         animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0 }}
         transition={{ duration: 0.2 }}
       />
       <span
         className="absolute bottom-0 left-3.5 right-3.5 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
-        style={{ background: scrolled ? '#3d7a52' : '#72c49260' }}
+        style={{ background: scrolled ? '#16a34a' : 'rgba(74,222,128,0.4)' }}
       />
     </a>
   )
 }
 
-// ─── Main Navbar ────────────────────────────────────────────────────────────
+// ─── MAIN NAVBAR (FIXED EXPORT DECLARATION) ──────────────────────────────────
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -164,7 +166,7 @@ export const Navbar: React.FC = () => {
               ? 'rgba(247,245,240,0.94)'
               : 'linear-gradient(180deg, rgba(2,8,2,0.72) 0%, rgba(2,8,2,0.0) 100%)',
             backdropFilter: 'blur(16px)',
-            borderColor: scrolled ? 'rgba(61,122,82,0.12)' : 'transparent',
+            borderColor: scrolled ? 'rgba(22,163,74,0.12)' : 'transparent',
             borderStyle: 'solid',
           }}
         >
@@ -245,7 +247,7 @@ export const Navbar: React.FC = () => {
                     handleNavigation(item.href, () => setIsOpen(false))
                   }}
                   className="text-sm font-bold uppercase tracking-[0.15em] py-2 border-b border-gray-200 transition-colors"
-                  style={{ color: pathname === '/' && active === item.href ? '#2d5c3e' : 'rgba(13,34,16,0.6)' }}
+                  style={{ color: pathname === '/' && active === item.href ? '#16a34a' : 'rgba(13,34,16,0.6)' }}
                 >
                   {item.label}
                 </a>
