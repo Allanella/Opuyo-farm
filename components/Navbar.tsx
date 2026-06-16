@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Container } from './Container'
 import { Menu, X } from 'lucide-react'
 import { useRouter, usePathname } from 'next/navigation'
+import Image from 'next/image'
 
 interface NavItem {
   label: string
@@ -20,40 +21,19 @@ const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ]
 
-// ─── Logo Mark SVG ─────────────────────────────────────────────────────────────
-function LogoMark({ inverted = false }: { inverted?: boolean }) {
-  const leaf = inverted ? '#f0ece0' : '#2d5c3e'
-  const accent = inverted ? '#3d7a52' : '#72c492'
+// ─── FIXED SINGLE LOGO CONTAINER ─────────────────────────────────────────────
+function LogoMark() {
   return (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-      <rect width="32" height="32" rx="9" fill={inverted ? '#2d5c3e' : '#eaf3e6'} />
-      <path
-        d="M16 8 C16 8, 22 11, 22 17 C22 21.4 19.3 24.5 16 25 C12.7 24.5 10 21.4 10 17 C10 11 16 8 16 8Z"
-        fill={leaf}
-        opacity="0.9"
+    <div className="relative w-9 h-9 md:w-10 md:h-10 flex-shrink-0 flex items-center justify-center overflow-hidden">
+      <Image
+        src="/image.png" 
+        alt="Opuyo Mixed Demonstration Farm Logo"
+        width={40} 
+        height={40}
+        priority
+        className="object-contain"
       />
-      <path
-        d="M16 25 L16 14"
-        stroke={accent}
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity="0.7"
-      />
-      <path
-        d="M16 20 L12.5 16.5"
-        stroke={accent}
-        strokeWidth="0.9"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
-      <path
-        d="M16 18 L19.5 14.5"
-        stroke={accent}
-        strokeWidth="0.9"
-        strokeLinecap="round"
-        opacity="0.5"
-      />
-    </svg>
+    </div>
   )
 }
 
@@ -63,7 +43,7 @@ function useActiveSection(items: NavItem[]) {
   const pathname = usePathname()
 
   useEffect(() => {
-    if (pathname !== '/') return // Only track active sections on the home page
+    if (pathname !== '/') return
 
     const observers: IntersectionObserver[] = []
     items.forEach(({ href }) => {
@@ -147,12 +127,10 @@ export const Navbar: React.FC = () => {
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
-  // Cross-page navigation routing handler
   const handleNavigation = (href: string, closeMobileMenu?: () => void) => {
     closeMobileMenu?.()
 
     if (pathname === '/') {
-      // We are on the home page -> smooth scroll right to the section anchor
       const el = document.querySelector(href)
       if (el) {
         window.scrollTo({
@@ -161,14 +139,12 @@ export const Navbar: React.FC = () => {
         })
       }
     } else {
-      // We are on a subpage -> fall back to router navigation directly to home + anchor
       router.push(`/${href}`)
     }
   }
 
   return (
     <>
-      {/* ── Fixed header shell ── */}
       <motion.div
         className="fixed top-0 left-0 right-0 z-50"
         initial={false}
@@ -194,21 +170,23 @@ export const Navbar: React.FC = () => {
         >
           <Container>
             <div className="flex items-center justify-between py-3.5">
-              {/* Logo / Brand */}
+              
+              {/* Logo / Brand Container */}
               <a 
                 href="#home" 
                 onClick={(e) => { 
                   e.preventDefault()
                   handleNavigation('#home', () => setIsOpen(false)) 
                 }}
-                className="flex items-center gap-2.5 z-50"
+                className="flex items-center gap-3 z-50 select-none group"
               >
-                <LogoMark inverted={scrolled} />
+                <LogoMark />
+                
                 <span 
-                  className="font-bold text-[13px] uppercase tracking-[0.2em] transition-colors duration-200"
+                  className="font-bold text-[11px] sm:text-[13px] uppercase tracking-[0.16em] sm:tracking-[0.2em] transition-colors duration-200 whitespace-nowrap"
                   style={{ color: scrolled ? '#0d2210' : '#f0ece0' }}
                 >
-                  Opuyo Farm
+                  Opuyo Mixed Demonstration Farm
                 </span>
               </a>
 

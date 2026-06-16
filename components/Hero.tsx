@@ -38,7 +38,6 @@ function AnimatedCounter({
 }
 
 // ─── Hero Background with Real Image ─────────────────────────────────────────
-// 👇 Change this path to your actual goat image path
 const HERO_IMAGE_PATH = '/hero.jpeg'
 
 function HeroBackground() {
@@ -127,7 +126,6 @@ function GoatCapacityCard() {
           '0 32px 64px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08)',
       }}
     >
-      {/* Top shimmer line */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#c8923a]/50 to-transparent" />
 
       <div className="mb-1 text-[10px] font-bold uppercase tracking-[0.18em] text-[#c8923a]/90">
@@ -210,7 +208,6 @@ function StatBelt() {
       transition={{ duration: 0.8, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
       className="relative z-10 w-full mt-14 lg:mt-18"
     >
-      {/* Thin divider above stats */}
       <div className="mb-6 h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -225,7 +222,6 @@ function StatBelt() {
             ].join(' ')}
             style={{ backdropFilter: 'blur(20px)' }}
           >
-            {/* Top accent line */}
             <div
               className="absolute inset-x-0 top-0 h-px"
               style={{
@@ -284,8 +280,9 @@ export const Hero: React.FC = () => {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5, delay: 0.15 }}
               >
+                {/* Updated brand identity tag name */}
                 <span className="inline-block rounded-md bg-[#c8923a]/10 border border-[#c8923a]/30 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#d4913a]">
-                  Demonstration Farm &middot; Est. 2020
+                  Opuyo Mixed Demonstration Farm &middot; Est. 2020
                 </span>
               </motion.div>
 
@@ -297,7 +294,7 @@ export const Hero: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  Where Goat Farming
+                  Where Agribusiness
                 </motion.span>
                 <motion.span
                   className="block text-transparent bg-clip-text"
@@ -310,7 +307,7 @@ export const Hero: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  Becomes Real Profit.
+                  Becomes Real Profit!!
                 </motion.span>
               </h1>
 

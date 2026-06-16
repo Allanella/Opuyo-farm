@@ -70,8 +70,9 @@ export const Footer: React.FC = () => {
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#3d7a52]/10 border border-[#3d7a52]/30">
                   <Leaf className="h-4 w-4 text-[#72c492]" />
                 </div>
+                {/* Updated brand header identity alignment */}
                 <h3 className="text-xl font-black text-[#f0e9d8] tracking-tight">
-                  Opuyo Farm
+                  Opuyo Mixed Demonstration Farm
                 </h3>
               </div>
               <p className="text-xs leading-relaxed text-white/50 max-w-sm">
