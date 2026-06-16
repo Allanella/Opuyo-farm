@@ -8,14 +8,46 @@ import { Maximize2 } from 'lucide-react'
 
 export const Gallery: React.FC = () => {
   const images = [
-    { src: '/hero-goat-farm.png', alt: 'Farm Overview', className: 'md:col-span-2 md:row-span-2 h-[420px] md:h-[540px]' },
-    { src: '/goat-breeding.png', alt: 'Goat Breeding Unit', className: 'md:col-span-2 h-[200px] md:h-[258px]' },
-    { src: '/fish-farming.png', alt: 'Fish Farming Ponds', className: 'h-[200px] md:h-[258px]' },
-    { src: '/apiary.png', alt: 'Modern Beehives', className: 'h-[200px] md:h-[258px]' },
-    { src: '/crop-production.png', alt: 'Crop Production Fields', className: 'h-[200px] md:h-[258px]' },
-    { src: '/fodder-bank.png', alt: 'Fodder Bank', className: 'h-[200px] md:h-[258px]' },
-    { src: '/value-addition.png', alt: 'Value Addition Products', className: 'md:col-span-2 h-[200px] md:h-[258px]' },
-    { src: '/farmer-training.png', alt: 'Farmer Training Session', className: 'h-[200px] md:h-[258px]' },
+    { 
+      src: 'https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTry7-XaqA1ZtyUQLGzt--6IrgcfSrx2Ouvc6C6JJAoPY1NyNOPoUfZVnQ6rhumg50SouXpXpr7QWxU_jU', 
+      alt: 'Farm Overview & Mixed Cultivation Landscape', 
+      className: 'md:col-span-2 md:row-span-2 h-[420px] md:h-[540px]' 
+    },
+    { 
+      src: '/goatFarm.jpeg', 
+      alt: 'Goat Breeding & Livestock Unit', 
+      className: 'md:col-span-2 h-[200px] md:h-[258px]' 
+    },
+    { 
+      src: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcSADFDIYuE2jluu39ZGRrukjJzzfSpg7KiB1oeX-zyrvxnnkNfOCSzpV1ucCKzJxzrY49Enbildl73bIso', 
+      alt: 'Fish Farming & Open Aquaculture Ponds', 
+      className: 'h-[200px] md:h-[258px]' 
+    },
+    { 
+      src: 'https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcTSIgjcaKP4XBBkqU9BmMhogFTqa5-MnE6lS1FXIIITvgnBW5rHb2t9ffDEMWTZRClsmVD7RnMEahSn0O8', 
+      alt: 'Modern Apiary & Hillside Beehives', 
+      className: 'h-[200px] md:h-[258px]' 
+    },
+    { 
+      src: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcRaYz4Ly8bCCkkFeFZuEGBPmITB3rAByiZZIYdxeAb-lYU-tCpkyadLd8XuOrhd1WHQLkRDqp3kea7v0Uk', 
+      alt: 'Crop Production & Mixed Grain Fields', 
+      className: 'h-[200px] md:h-[258px]' 
+    },
+    { 
+      src: 'https://encrypted-tbn2.gstatic.com/licensed-image?q=tbn:ANd9GcQGx36L-bjj7yxr0jlAdM49CYoWY5h4lUlysWhk1ueKd24a0sT8NmvHExMqhq5KNKmAPL43kAkFfWorQSg', 
+      alt: 'Fodder Bank & Forage Napier Grass', 
+      className: 'h-[200px] md:h-[258px]' 
+    },
+    { 
+      src: 'https://www.fao.org/images/reusavefoodlibraries/news-images/19717464365_91a2328742_o.jpg?sfvrsn=9471ec39_0', 
+      alt: 'Agro-Processing & Value Addition Products', 
+      className: 'md:col-span-2 h-[200px] md:h-[258px]' 
+    },
+    { 
+      src: 'https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcRDelQdtaeQQSAGMuNvGmxgLHv35R3tm5FkRXNQMHJrajdG67e6KGTtbQGIQi33nKMhuMhGVnKgbQp56ZE', 
+      alt: 'Practical Farmer Training & Field Workshop', 
+      className: 'h-[200px] md:h-[258px]' 
+    },
   ]
 
   const containerVariants = {

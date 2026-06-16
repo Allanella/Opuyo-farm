@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Container } from './Container'
-import { Menu, X, Sprout } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
+import { useRouter, usePathname } from 'next/navigation'
 
 interface NavItem {
   label: string
@@ -19,158 +20,258 @@ const navItems: NavItem[] = [
   { label: 'Contact', href: '#contact' },
 ]
 
+// ─── Logo Mark SVG ─────────────────────────────────────────────────────────────
+function LogoMark({ inverted = false }: { inverted?: boolean }) {
+  const leaf = inverted ? '#f0ece0' : '#2d5c3e'
+  const accent = inverted ? '#3d7a52' : '#72c492'
+  return (
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <rect width="32" height="32" rx="9" fill={inverted ? '#2d5c3e' : '#eaf3e6'} />
+      <path
+        d="M16 8 C16 8, 22 11, 22 17 C22 21.4 19.3 24.5 16 25 C12.7 24.5 10 21.4 10 17 C10 11 16 8 16 8Z"
+        fill={leaf}
+        opacity="0.9"
+      />
+      <path
+        d="M16 25 L16 14"
+        stroke={accent}
+        strokeWidth="1.2"
+        strokeLinecap="round"
+        opacity="0.7"
+      />
+      <path
+        d="M16 20 L12.5 16.5"
+        stroke={accent}
+        strokeWidth="0.9"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+      <path
+        d="M16 18 L19.5 14.5"
+        stroke={accent}
+        strokeWidth="0.9"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+    </svg>
+  )
+}
+
+// ─── Active section tracker ─────────────────────────────────────────────────
+function useActiveSection(items: NavItem[]) {
+  const [active, setActive] = useState('#home')
+  const pathname = usePathname()
+
+  useEffect(() => {
+    if (pathname !== '/') return // Only track active sections on the home page
+
+    const observers: IntersectionObserver[] = []
+    items.forEach(({ href }) => {
+      const el = document.querySelector(href)
+      if (!el) return
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActive(href) },
+        { rootMargin: '-40% 0px -55% 0px' }
+      )
+      obs.observe(el)
+      observers.push(obs)
+    })
+
+    return () => observers.forEach((o) => o.disconnect())
+  }, [items, pathname])
+
+  return active
+}
+
+// ─── Desktop Nav Link ───────────────────────────────────────────────────────
+function NavLink({
+  item,
+  isActive,
+  scrolled,
+  onNavigate,
+}: {
+  item: NavItem
+  isActive: boolean
+  scrolled: boolean
+  onNavigate: (href: string) => void
+}) {
+  return (
+    <a
+      href={item.href}
+      onClick={(e) => { 
+        e.preventDefault()
+        onNavigate(item.href)
+      }}
+      className="relative px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.12em] transition-colors duration-200 group"
+      style={{ color: isActive
+        ? (scrolled ? '#2d5c3e' : '#72c492')
+        : (scrolled ? 'rgba(13,34,16,0.55)' : 'rgba(240,236,224,0.65)')
+      }}
+    >
+      {item.label}
+      <motion.span
+        layoutId="nav-dot"
+        className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full"
+        style={{ background: scrolled ? '#3d7a52' : '#72c492' }}
+        initial={false}
+        animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0 }}
+        transition={{ duration: 0.2 }}
+      />
+      <span
+        className="absolute bottom-0 left-3.5 right-3.5 h-px origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-200"
+        style={{ background: scrolled ? '#3d7a52' : '#72c49260' }}
+      />
+    </a>
+  )
+}
+
+// ─── Main Navbar ────────────────────────────────────────────────────────────
 export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const active = useActiveSection(navItems)
+  
+  const router = useRouter()
+  const pathname = usePathname()
 
-  // Track scrolling to morph layout structure smoothly
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true)
-      } else {
-        setScrolled(false)
-      }
+    const onScroll = () => {
+      setScrolled(window.scrollY > 32)
     }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Smooth operational scroll offset calculator
-  const handleScrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault()
-    setIsOpen(false)
-    
-    const element = document.querySelector(href)
-    if (element) {
-      const topOffset = element.getBoundingClientRect().top + window.pageYOffset - 90
-      window.scrollTo({
-        top: topOffset,
-        behavior: 'smooth',
-      })
+  useEffect(() => {
+    document.body.style.overflow = isOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isOpen])
+
+  // Cross-page navigation routing handler
+  const handleNavigation = (href: string, closeMobileMenu?: () => void) => {
+    closeMobileMenu?.()
+
+    if (pathname === '/') {
+      // We are on the home page -> smooth scroll right to the section anchor
+      const el = document.querySelector(href)
+      if (el) {
+        window.scrollTo({
+          top: el.getBoundingClientRect().top + window.pageYOffset - 80,
+          behavior: 'smooth',
+        })
+      }
+    } else {
+      // We are on a subpage -> fall back to router navigation directly to home + anchor
+      router.push(`/${href}`)
     }
   }
 
   return (
     <>
-      <div 
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled 
-            ? 'p-0' 
-            : 'p-4 md:p-6 select-none pointer-events-none'
-        }`}
+      {/* ── Fixed header shell ── */}
+      <motion.div
+        className="fixed top-0 left-0 right-0 z-50"
+        initial={false}
+        animate={{ paddingTop: scrolled ? 0 : 16, paddingLeft: scrolled ? 0 : 16, paddingRight: scrolled ? 0 : 16 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
       >
-        <header
-          className={`mx-auto w-full transition-all duration-500 pointer-events-auto ${
-            scrolled
-              ? 'bg-[#f7f5f0]/90 backdrop-blur-md border-b border-[#3d7a52]/10 shadow-sm py-4'
-              : 'bg-[#f7f5f0]/60 backdrop-blur-md max-w-6xl rounded-2xl border border-[#3d7a52]/15 shadow-md py-4 px-4 md:px-6'
-          }`}
+        <motion.header
+          initial={false}
+          animate={{
+            borderRadius: scrolled ? 0 : 16,
+            borderBottomWidth: scrolled ? 1 : 0,
+          }}
+          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          className="mx-auto w-full overflow-hidden"
+          style={{
+            background: scrolled
+              ? 'rgba(247,245,240,0.94)'
+              : 'linear-gradient(180deg, rgba(2,8,2,0.72) 0%, rgba(2,8,2,0.0) 100%)',
+            backdropFilter: 'blur(16px)',
+            borderColor: scrolled ? 'rgba(61,122,82,0.12)' : 'transparent',
+            borderStyle: 'solid',
+          }}
         >
-          <Container className={scrolled ? '' : 'max-w-none px-0'}>
-            <nav className="flex items-center justify-between">
-              {/* Brand Logo Identity */}
+          <Container>
+            <div className="flex items-center justify-between py-3.5">
+              {/* Logo / Brand */}
               <a 
                 href="#home" 
-                onClick={(e) => handleScrollToSection(e, '#home')}
-                className="flex items-center gap-2 group z-50"
+                onClick={(e) => { 
+                  e.preventDefault()
+                  handleNavigation('#home', () => setIsOpen(false)) 
+                }}
+                className="flex items-center gap-2.5 z-50"
               >
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#3d7a52]/10 border border-[#3d7a52]/20 text-[#2d5c3e] group-hover:bg-[#3d7a52] group-hover:text-[#f7f5f0] transition-all duration-300">
-                  <Sprout className="h-5 w-5" />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-xs font-mono font-black uppercase tracking-wider text-[#0d2210]">
-                    Opuyo Farm
-                  </span>
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-[#3d7a52] -mt-0.5">
-                    Demo & Training
-                  </span>
-                </div>
+                <LogoMark inverted={scrolled} />
+                <span 
+                  className="font-bold text-[13px] uppercase tracking-[0.2em] transition-colors duration-200"
+                  style={{ color: scrolled ? '#0d2210' : '#f0ece0' }}
+                >
+                  Opuyo Farm
+                </span>
               </a>
 
-              {/* Desktop Navigation Link Cluster */}
-              <div className="hidden md:flex items-center gap-1">
+              {/* Desktop Menu */}
+              <div className="hidden md:flex items-center gap-1.5">
                 {navItems.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    onClick={(e) => handleScrollToSection(e, item.href)}
-                    className="relative px-4 py-2 text-xs font-mono font-bold uppercase tracking-wider text-[#0d2210]/70 hover:text-[#2d5c3e] transition-colors rounded-lg group"
-                  >
-                    {item.label}
-                    <span className="absolute bottom-1 left-4 right-4 h-0.5 bg-[#3d7a52] transform scale-x-0 origin-left transition-transform duration-200 group-hover:scale-x-100" />
-                  </a>
+                  <NavLink 
+                    key={item.href} 
+                    item={item} 
+                    isActive={pathname === '/' && active === item.href} 
+                    scrolled={scrolled} 
+                    onNavigate={handleNavigation}
+                  />
                 ))}
-                
-                <a
-                  href="#contact"
-                  onClick={(e) => handleScrollToSection(e, '#contact')}
-                  className="ml-4 inline-flex items-center justify-center rounded-xl bg-[#2d5c3e] px-4 py-2.5 text-[11px] font-mono font-bold uppercase tracking-wider text-[#f7f5f0] shadow-sm hover:bg-[#3d7a52] transition-colors"
-                >
-                  Book Visit
-                </a>
               </div>
 
-              {/* Mobile Interface Toggle Button */}
+              {/* Mobile Menu Trigger */}
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#3d7a52]/15 bg-white/60 text-[#0d2210] md:hidden z-50 hover:bg-white/90 transition-colors"
+                className="md:hidden p-2 z-50 rounded-full transition-colors duration-200"
+                style={{ color: scrolled || isOpen ? '#0d2210' : '#f0ece0' }}
                 aria-label="Toggle Menu"
               >
-                {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                {isOpen ? <X size={20} /> : <Menu size={20} />}
               </button>
-            </nav>
+            </div>
           </Container>
-        </header>
-      </div>
+        </motion.header>
+      </motion.div>
 
-      {/* Fullscreen Mobile Drawer Overlay Menu */}
+      {/* Mobile Drawer Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-[#f7f5f0] pt-28 px-6 md:hidden flex flex-col justify-between pb-12"
+            className="fixed inset-0 bg-black/20 backdrop-blur-md z-40 md:hidden"
+            onClick={() => setIsOpen(false)}
           >
-            {/* Background Structural Accent Decor */}
-            <div className="absolute inset-0 bg-[radial-gradient(#3d7a52_1px,transparent_1px)] [background-size:16px_16px] opacity-5 pointer-events-none" />
-
-            <div className="flex flex-col gap-3 relative z-10">
-              {navItems.map((item, index) => (
-                <motion.a
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  key={item.label}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="absolute top-0 right-0 bottom-0 w-[280px] bg-[#f7f5f0] p-6 pt-24 flex flex-col gap-6 shadow-2xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              {navItems.map((item) => (
+                <a
+                  key={item.href}
                   href={item.href}
-                  onClick={(e) => handleScrollToSection(e, item.href)}
-                  className="block text-2xl font-black text-[#0d2210] tracking-tight hover:text-[#3d7a52] transition-colors border-b border-[#3d7a52]/5 pb-2"
+                  onClick={(e) => {
+                    e.preventDefault()
+                    handleNavigation(item.href, () => setIsOpen(false))
+                  }}
+                  className="text-sm font-bold uppercase tracking-[0.15em] py-2 border-b border-gray-200 transition-colors"
+                  style={{ color: pathname === '/' && active === item.href ? '#2d5c3e' : 'rgba(13,34,16,0.6)' }}
                 >
                   {item.label}
-                </motion.a>
+                </a>
               ))}
-            </div>
-
-            {/* Mobile Footer Callout Row */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="relative z-10 space-y-4"
-            >
-              <a
-                href="#contact"
-                onClick={(e) => handleScrollToSection(e, '#contact')}
-                className="w-full text-center inline-flex items-center justify-center rounded-xl bg-[#2d5c3e] py-3.5 text-xs font-mono font-bold uppercase tracking-wider text-[#f7f5f0] shadow-md"
-              >
-                Schedule Field Booking
-              </a>
-              <p className="text-[11px] text-center text-[#0d2210]/50 font-mono">
-                📍 Opuyo Ward, Soroti City, Eastern Uganda
-              </p>
             </motion.div>
           </motion.div>
         )}

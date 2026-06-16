@@ -3,7 +3,7 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Container } from './Container'
-import { Mail, Leaf, Share2, Globe, ArrowUpRight } from 'lucide-react'
+import { Mail, Leaf, Share2, Globe, ArrowUpRight, Phone } from 'lucide-react'
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
@@ -154,12 +154,22 @@ export const Footer: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Structural Credits Section */}
-        <div className="mt-8 border-t border-white/[0.02] pt-4 flex justify-between items-center text-[9px] font-mono text-white/20">
+        {/* Structural Credits Section with Integrated Contacts */}
+        <div className="mt-8 border-t border-white/[0.02] pt-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center text-[9px] font-mono text-white/20">
           <p>Production Environment Node v20.x</p>
-          <p className="hover:text-white/40 transition-colors duration-200">
-            Developed by <span className="text-white/30 font-bold">Baliddawa Allan</span>
-          </p>
+          
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 bg-white/[0.01] border border-white/[0.03] px-3 py-1.5 rounded-lg sm:bg-transparent sm:border-none sm:p-0">
+            <span className="hover:text-white/40 transition-colors duration-200">
+              Developed by <span className="text-white/30 font-bold">Baliddawa Allan</span>
+            </span>
+            <span className="hidden sm:inline text-white/5">|</span>
+            <div className="flex items-center gap-1.5 text-white/30">
+              <Phone className="h-2.5 w-2.5 text-[#72c492]/60" />
+              <a href="tel:+256700966715" className="hover:text-[#72c492] transition-colors duration-150">+256 700 966 715</a>
+              <span className="text-white/10">,</span>
+              <a href="tel:+256785639406" className="hover:text-[#72c492] transition-colors duration-150">+256 785 639 406</a>
+            </div>
+          </div>
         </div>
 
       </Container>
