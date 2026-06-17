@@ -15,7 +15,7 @@ import {
 export const Contact: React.FC = () => {
   // Media Handle Matrix Routing Links (Direct Explicit Formats)
   const WHATSAPP_LINK = "https://wa.me/256700000000" 
-  const TIKTOK_LINK = "https://www.tiktok.com/@opuyodemofarm"
+  const TIKTOK_LINK = "https://www.tiktok.com/@opuyodemofarmgmail.com"
   const YOUTUBE_LINK = "https://youtube.com/@opuyomixeddemofarmsoroticity?si=fbOFOttoLhoqAwgH"
   const INSTAGRAM_LINK = "https://instagram.com/opuyomixedfarm"
   const FACEBOOK_LINK = "https://www.facebook.com/profile.php?id=61590793118490"
