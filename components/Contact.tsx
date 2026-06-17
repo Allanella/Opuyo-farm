@@ -133,7 +133,7 @@ export const Contact: React.FC = () => {
             >
               <Card className="p-5 rounded-2xl border border-[#f59e0b]/20 bg-white shadow-sm hover:border-[#f59e0b]/50 transition-all duration-300">
                 <h3 className="text-xs font-mono font-black uppercase tracking-wider text-[#0d2210] mb-3">
-                  Digital Media &amp; Openings
+                  Digital Media & Openings
                 </h3>
                 <p className="text-[11px] text-[#0d2210]/60 mb-4 leading-relaxed">
                   Follow our media handle loops or apply for open training roles.
@@ -185,8 +185,8 @@ export const Contact: React.FC = () => {
                 Fill out the secure communication routing file below. Our management replies within 24 hours.
               </p>
               
-              {/* Target Component */}
-              <ContactForm apiKey="7b172c5a-3b6e-41ba-a9e0-61e090e19ebd" />
+              {/* Updated Access Key Block */}
+              <ContactForm apiKey="6351ad97-4368-4cbf-a8c3-eae48f44664d" />
             </Card>
           </motion.div>
         </div>
