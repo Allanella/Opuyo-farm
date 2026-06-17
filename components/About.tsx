@@ -25,7 +25,7 @@ function PillarCard({ title, description, index }: PillarCardProps) {
         boxShadow: '0 4px 20px -2px rgba(5, 20, 11, 0.02), inset 0 1px 0 rgba(255, 255, 255, 0.8)',
       }}
     >
-      {/* ─── HOVER BACKGROUND LIGHT TRANSITION ─── */}
+      {/* ─── HOVER BACKGROUND LIGHT TRANSITION (UPDATED TO EGG-YOLK AMBER RADIANCE) ─── */}
       <motion.div
         variants={{
           initial: { scale: 0.8, opacity: 0 },
@@ -36,18 +36,19 @@ function PillarCard({ title, description, index }: PillarCardProps) {
         transition={{ duration: 0.4, ease: 'easeOut' }}
         className="absolute inset-0 pointer-events-none mix-blend-multiply z-0"
         style={{
-          background: 'radial-gradient(circle at 0% 0%, rgba(74, 222, 128, 0.12) 0%, transparent 65%)',
+          background: 'radial-gradient(circle at 0% 0%, rgba(245, 158, 11, 0.12) 0%, transparent 65%)',
           filter: 'blur(15px)',
         }}
       />
 
-      {/* Top glowing edge line indicator */}
+      {/* Top glowing edge line indicator — Shifted to match the rich egg-yolk gradient */}
       <div 
         className="absolute inset-x-0 top-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        style={{ background: 'linear-gradient(90deg, #4ade80, #1db87a)' }}
+        style={{ background: 'linear-gradient(90deg, #f59e0b, #d97706)' }}
       />
       
-      <h4 className="relative z-10 text-[15px] font-black text-[#05140b] tracking-tight group-hover:text-[#16a34a] transition-colors duration-300">
+      {/* Subtitle handles the smooth transformation to Egg-Yolk Amber on container hover */}
+      <h4 className="relative z-10 text-[15px] font-black text-[#05140b] tracking-tight group-hover:text-[#d97706] transition-colors duration-300">
         {title}
       </h4>
       <p className="relative z-10 mt-2 text-[13.5px] leading-relaxed text-[#05140b]/70 group-hover:text-[#05140b]/80 transition-colors duration-300">

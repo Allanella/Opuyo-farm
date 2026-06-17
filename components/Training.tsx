@@ -55,32 +55,32 @@ export const Training: React.FC = () => {
       icon: Eye,
       title: 'Observe & Study',
       description: 'Walk through active production cycles and witness live, validated farming strategies working on the ground.',
-      glow: 'rgba(14, 165, 233, 0.15)',
-      accent: '#0ea5e9',
+      glow: 'rgba(245, 158, 11, 0.15)', // Tweaked glow to match egg-yolk vibe on hover
+      accent: '#f59e0b', // Egg-Yolk Yellow Accent Color
     },
     {
       number: '02',
       icon: HardHat,
       title: 'Hands-on Practice',
       description: 'Get into the field to manage livestock, mix nutrient profiles, and handle equipment under expert supervision.',
-      glow: 'rgba(74, 222, 128, 0.15)',
-      accent: '#4ade80',
+      glow: 'rgba(245, 158, 11, 0.15)',
+      accent: '#f59e0b', 
     },
     {
       number: '03',
       icon: Sprout,
       title: 'Deploy Locally',
       description: 'Translate precise structural blueprints and bio-security protocols onto your own land with total confidence.',
-      glow: 'rgba(22, 163, 74, 0.12)',
-      accent: '#16a34a',
+      glow: 'rgba(245, 158, 11, 0.15)',
+      accent: '#f59e0b',
     },
     {
       number: '04',
       icon: TrendingUp,
       title: 'Scale & Monetize',
       description: 'Plug directly into verified market structures to extract maximum cash value from premium, high-yield outputs.',
-      glow: 'rgba(13, 148, 136, 0.15)',
-      accent: '#0d9488',
+      glow: 'rgba(245, 158, 11, 0.15)',
+      accent: '#f59e0b',
     },
   ]
 
@@ -90,7 +90,7 @@ export const Training: React.FC = () => {
       {/* Eye-catching bottom glow utilizing vibrant client asset palettes */}
       <div 
         className="absolute bottom-0 right-0 h-[400px] w-[400px] rounded-full pointer-events-none opacity-[0.08] filter blur-[120px]"
-        style={{ background: 'radial-gradient(circle, #0ea5e9 0%, #16a34a 100%)' }}
+        style={{ background: 'radial-gradient(circle, #f59e0b 0%, #16a34a 100%)' }}
       />
 
       <Container className="relative z-10">
@@ -103,7 +103,7 @@ export const Training: React.FC = () => {
           transition={{ duration: 0.6 }}
           className="mb-20 text-center"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#16a34a]/20 bg-[#16a34a]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#15803d] mb-4">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#f59e0b]/30 bg-[#f59e0b]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#d97706] mb-4">
             🌱 The Learning Model
           </div>
           <h2 className="text-balance text-4xl font-black text-[#0d2210] tracking-tight md:text-5xl leading-none">
@@ -117,8 +117,8 @@ export const Training: React.FC = () => {
         {/* Journey Timeline Wrapper */}
         <div className="relative">
           
-          {/* Connecting Track Line (Desktop Only) — Remapped to modern greens */}
-          <div className="absolute left-[12%] right-[12%] top-16 hidden h-[2px] bg-gradient-to-r from-[#0ea5e9]/20 via-[#16a34a]/40 to-[#0d9488]/20 lg:block" />
+          {/* Connecting Track Line (Desktop Only) — Integrated with an amber/egg-yolk accent strand */}
+          <div className="absolute left-[12%] right-[12%] top-16 hidden h-[2px] bg-gradient-to-r from-[#f59e0b]/20 via-[#16a34a]/40 to-[#0d9488]/20 lg:block" />
 
           {/* Steps Track Grid */}
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
@@ -136,7 +136,7 @@ export const Training: React.FC = () => {
                   className="group relative flex flex-col items-center p-4 text-center"
                 >
                   {/* Step Marker Badge Frame */}
-                  <div className="relative z-20 mb-6 flex h-24 w-24 items-center justify-center rounded-2xl border border-[#16a34a]/15 bg-white shadow-sm transition-all duration-300 group-hover:border-[#16a34a]/30 group-hover:shadow-md overflow-hidden">
+                  <div className="relative z-20 mb-6 flex h-24 w-24 items-center justify-center rounded-2xl border border-[#16a34a]/15 bg-white shadow-sm transition-all duration-300 group-hover:border-[#f59e0b]/40 group-hover:shadow-md overflow-hidden">
                     
                     {/* Dynamic Image Canvas backing the icons */}
                     <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
@@ -166,13 +166,13 @@ export const Training: React.FC = () => {
                     </div>
                     
                     {/* Floating Serial Counter */}
-                    <span className="absolute top-1 right-1 text-[9px] font-mono font-bold tracking-wider text-[#0d2210]/50 bg-[#f7f5f0]/90 px-1.5 py-0.5 rounded-md border border-[#16a34a]/10 z-20">
+                    <span className="absolute top-1 right-1 text-[9px] font-mono font-bold tracking-wider text-[#d97706] bg-[#f59e0b]/10 px-1.5 py-0.5 rounded-md border border-[#f59e0b]/20 z-20">
                       {step.number}
                     </span>
                   </div>
 
-                  {/* Text Context Area */}
-                  <h3 className="text-lg font-bold text-[#0d2210] tracking-tight group-hover:text-[#15803d] transition-colors relative z-10">
+                  {/* Text Context Area — Sub-titles remapped to high-end Egg-Yolk Yellow transition */}
+                  <h3 className="text-lg font-bold text-[#0d2210] tracking-tight group-hover:text-[#d97706] transition-colors relative z-10">
                     {step.title}
                   </h3>
                   

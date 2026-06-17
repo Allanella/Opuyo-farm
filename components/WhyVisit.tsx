@@ -75,7 +75,7 @@ export const WhyVisit: React.FC = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#3d7a52]/20 bg-[#3d7a52]/8 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#2d5c3e] mb-4">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#f59e0b]/30 bg-[#f59e0b]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#d97706] mb-4">
                 🎓 Knowledge Hub
               </div>
               <h2 className="text-balance text-3xl font-black text-[#0d2210] tracking-tight md:text-4xl leading-[1.15]">
@@ -85,8 +85,8 @@ export const WhyVisit: React.FC = () => {
                 Theoretical coursework fails when it meets harsh dry seasons. Farmers, cooperatives, and agriprenuers visit our facility to study real-world biological systems that yield profit under local constraints.
               </p>
               
-              <div className="mt-8 hidden lg:block border-l-2 border-[#3d7a52]/20 pl-4 space-y-3">
-                <p className="text-xs font-bold text-[#b8721a] uppercase tracking-wider">Field Impact Metrics</p>
+              <div className="mt-8 hidden lg:block border-l-2 border-[#f59e0b]/40 pl-4 space-y-3">
+                <p className="text-xs font-bold text-[#d97706] uppercase tracking-wider">Field Impact Metrics</p>
                 <p className="text-[13px] text-[#0d2210]/60 italic">"Replacing guesswork and traditional trial-and-error with audited commercial procedures."</p>
               </div>
             </motion.div>
@@ -102,15 +102,16 @@ export const WhyVisit: React.FC = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: '-40px' }}
                   transition={{ duration: 0.5, delay: (index % 2) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#3d7a52]/10 bg-white p-6 shadow-[0_2px_6px_rgba(13,34,16,0.01)] transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_16px_32px_rgba(13,34,16,0.05)] hover:border-[#3d7a52]/30"
+                  className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-[#3d7a52]/10 bg-white p-6 shadow-[0_2px_6px_rgba(13,34,16,0.01)] transition-all duration-300 hover:scale-[1.01] hover:shadow-[0_16px_32px_rgba(13,34,16,0.05)] hover:border-[#f59e0b]/30"
                 >
                   <div>
-                    {/* Minimal Technical Icon Ring */}
-                    <div className="mb-4 inline-flex rounded-xl border border-[#3d7a52]/15 bg-[#f7f5f0] p-2.5 text-[#3d7a52] transition-colors group-hover:bg-[#3d7a52] group-hover:text-white group-hover:border-transparent">
+                    {/* Minimal Technical Icon Ring — Seamlessly shifts to egg-yolk yellow on card hover */}
+                    <div className="mb-4 inline-flex rounded-xl border border-[#3d7a52]/15 bg-[#f7f5f0] p-2.5 text-[#3d7a52] transition-colors group-hover:bg-[#f59e0b] group-hover:text-white group-hover:border-transparent">
                       <benefit.icon className="h-5 w-5" />
                     </div>
 
-                    <h3 className="text-[15.5px] font-bold text-[#0d2210] tracking-tight group-hover:text-[#3d7a52] transition-colors">
+                    {/* Subtitle handles the smooth color transformation */}
+                    <h3 className="text-[15.5px] font-bold text-[#0d2210] tracking-tight group-hover:text-[#d97706] transition-colors duration-300">
                       {benefit.title}
                     </h3>
                     <p className="mt-2 text-[13px] leading-relaxed text-[#0d2210]/65">
@@ -118,9 +119,9 @@ export const WhyVisit: React.FC = () => {
                     </p>
                   </div>
 
-                  {/* Micro-indicator subtle card edge lines */}
+                  {/* Micro-indicator subtle card edge lines adjusted to egg-yolk palette */}
                   <div className="absolute right-0 bottom-0 h-8 w-8 overflow-hidden pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute top-4 left-4 h-8 w-8 rotate-45 border-t border-l border-[#b8721a]/40" />
+                    <div className="absolute top-4 left-4 h-8 w-8 rotate-45 border-t border-l border-[#f59e0b]/40" />
                   </div>
                 </motion.div>
               ))}

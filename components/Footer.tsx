@@ -3,10 +3,18 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 import { Container } from './Container'
-import { Mail, Leaf, Share2, Globe, ArrowUpRight, Phone } from 'lucide-react'
+import { Mail, Leaf, ArrowUpRight, Phone } from 'lucide-react'
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear()
+
+  // ─── SOCIALS LINKS DEFINITIONS ───
+  const WHATSAPP_LINK = "https://wa.me/256700000000" 
+  const TIKTOK_LINK = "https://www.tiktok.com/@opuyomixedfarm"
+  const YOUTUBE_LINK = "https://youtube.com/@opuyomixedfarm"
+  const INSTAGRAM_LINK = "https://instagram.com/opuyomixedfarm"
+  const FACEBOOK_LINK = "https://facebook.com/opuyomixedfarm"
+  const LINKEDIN_OPENINGS_LINK = "https://linkedin.com/company/opuyo-mixed-farm/jobs"
 
   const links = [
     {
@@ -39,10 +47,74 @@ export const Footer: React.FC = () => {
     },
   ]
 
-  const social = [
-    { icon: Mail, href: 'mailto:opuyodemofarm@gmail.com', label: 'Email Support' },
-    { icon: Share2, href: '#', label: 'Share Platform' },
-    { icon: Globe, href: '#', label: 'Official Domain' },
+  // Swapped out volatile icon package properties for structured custom rendering
+  const socialMediaMatrix = [
+    {
+      label: 'Email Support',
+      href: 'mailto:opuyodemofarm@gmail.com',
+      icon: (
+        <Mail className="h-4 w-4" />
+      )
+    },
+    {
+      label: 'WhatsApp Chat',
+      href: WHATSAPP_LINK,
+      icon: (
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+      )
+    },
+    {
+      label: 'Facebook',
+      href: FACEBOOK_LINK,
+      icon: (
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+        </svg>
+      )
+    },
+    {
+      label: 'TikTok',
+      href: TIKTOK_LINK,
+      icon: (
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.05 1.56 4.25 1.12 1.23 2.61 2.01 4.21 2.23v3.91c-1.8-.16-3.52-.94-4.82-2.2-.1-.09-.16-.16-.24-.26v6.92c.02 5.37-4.13 9.47-9.45 9.47A9.23 9.23 0 01.31 14.9c-.1-5.56 4.41-9.71 9.8-9.45v3.94c-2.7-.17-5.07 1.83-5.26 4.5-.23 3.19 2.45 5.56 5.59 5.25 2.53-.25 4.34-2.58 4.21-5.11v-14c.01-.01.01-.01.01-.02z"/>
+        </svg>
+      )
+    },
+    {
+      label: 'YouTube',
+      href: YOUTUBE_LINK,
+      icon: (
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 3.88 12 3.88 12 3.88s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+          <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+        </svg>
+      )
+    },
+    {
+      label: 'Instagram',
+      href: INSTAGRAM_LINK,
+      icon: (
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+        </svg>
+      )
+    },
+    {
+      label: 'LinkedIn Jobs',
+      href: LINKEDIN_OPENINGS_LINK,
+      icon: (
+        <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+          <rect x="2" y="9" width="4" height="12"></rect>
+          <circle cx="4" cy="4" r="2"></circle>
+        </svg>
+      )
+    }
   ]
 
   return (
@@ -70,7 +142,6 @@ export const Footer: React.FC = () => {
                 <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#3d7a52]/10 border border-[#3d7a52]/30">
                   <Leaf className="h-4 w-4 text-[#72c492]" />
                 </div>
-                {/* Updated brand header identity alignment */}
                 <h3 className="text-xl font-black text-[#f0e9d8] tracking-tight">
                   Opuyo Mixed Demonstration Farm
                 </h3>
@@ -139,17 +210,19 @@ export const Footer: React.FC = () => {
           </div>
 
           {/* Core Interactive Action Buttons */}
-          <div className="flex items-center gap-2.5">
-            {social.map((item) => (
+          <div className="flex flex-wrap items-center gap-2">
+            {socialMediaMatrix.map((item) => (
               <motion.a
                 key={item.label}
                 href={item.href}
+                target={item.href.startsWith('mailto') ? undefined : '_blank'}
+                rel={item.href.startsWith('mailto') ? undefined : 'noopener noreferrer'}
                 className="inline-flex h-9 w-9 items-center justify-center rounded-xl border border-white/5 bg-[#0a120b] text-white/40 transition-all duration-200 hover:border-[#3d7a52]/40 hover:text-[#72c492]"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.95 }}
                 title={item.label}
               >
-                <item.icon className="h-4 w-4" />
+                {item.icon}
               </motion.a>
             ))}
           </div>
