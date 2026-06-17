@@ -99,7 +99,7 @@ function NavLink({
       <motion.span
         layoutId="nav-dot"
         className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#4ade80]"
-        style={{ shadow: '0 0 8px rgba(74,222,128,0.5)' }}
+        style={{ boxShadow: '0 0 8px rgba(74,222,128,0.5)' }}
         initial={false}
         animate={{ opacity: isActive ? 1 : 0, scale: isActive ? 1 : 0 }}
         transition={{ duration: 0.2 }}
