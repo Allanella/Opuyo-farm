@@ -140,7 +140,7 @@ export const Contact: React.FC = () => {
                 </p>
                 
                 <div className="grid grid-cols-2 gap-2">
-                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-xl bg-[#f7f5f0] border border-[#0d2210]/5 text-xs text-[#0d2210]/80 font-medium hover:bg-[#25D366]/10 hover:text-[#25D366] transition-all duration-200">
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 p-2 rounded-xl bg-[#f7f5f0] border border-[#0d2210]/5 of text-xs text-[#0d2210]/80 font-medium hover:bg-[#25D366]/10 hover:text-[#25D366] transition-all duration-200">
                     <svg className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                     <span>WhatsApp</span>
                   </a>
@@ -185,8 +185,8 @@ export const Contact: React.FC = () => {
                 Fill out the secure communication routing file below. Our management replies within 24 hours.
               </p>
               
-              {/* Updated Access Key Block with the fully corrected string */}
-              <ContactForm apiKey="6351ad97-4368-4cbf-a8c3-eae48f44664d" />
+              {/* Injecting your active key from image_463320.png */}
+              <ContactForm apiKey="504155a1-025e-4a96-80dd-0e7c4ff66ce9" />
             </Card>
           </motion.div>
         </div>
