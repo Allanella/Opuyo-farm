@@ -27,12 +27,23 @@ function AnimatedCounter({
   useEffect(() => {
     if (!inView) return
     const controls = animate(count, target, { duration, ease: [0.16, 1, 0.3, 1] })
-    return controls.stop
-  }, [inView, count, target, duration])
+    
+    // Safely update DOM text node on animation changes
+    const unsubscribe = rounded.on("change", (latest) => {
+      if (ref.current) {
+        ref.current.textContent = latest
+      }
+    })
+
+    return () => {
+      controls.stop()
+      unsubscribe()
+    }
+  }, [inView, count, target, duration, rounded])
 
   return (
-    <span ref={ref} className="tracking-tight">
-      <motion.span>{rounded}</motion.span>
+    <span className="tracking-tight">
+      <span ref={ref}>0</span>
       {suffix}
     </span>
   )
@@ -187,9 +198,9 @@ function GoatCapacityCard() {
         Boma Capacity
       </p>
 
-      <p className="relative my-3 text-[60px] font-black leading-none tracking-tight text-[#e8f5ec]">
+      <div className="relative my-3 text-[60px] font-black leading-none tracking-tight text-[#e8f5ec]">
         <AnimatedCounter target={400} />
-      </p>
+      </div>
 
       <p className="relative text-[10px] font-semibold uppercase tracking-[0.14em] text-white/40">
         Improved Goats
@@ -241,9 +252,18 @@ function TrustStrip() {
   )
 }
 
-const STATS = [
-  { value: 4,        suffix: '',  label: 'Acre Demo Farm',      icon: '🗺️', color: '#4ade80', featured: false },
-  { value: 400,      suffix: '+', label: 'Goat Capacity',       icon: '🐐', color: '#1db87a', featured: true  },
+interface StatItem {
+  value: number | string
+  suffix: string
+  label: string
+  icon: string
+  color: string
+  featured: boolean
+}
+
+const STATS: StatItem[] = [
+  { value: 4,         suffix: '',  label: 'Acre Demo Farm',       icon: '🗺️', color: '#4ade80', featured: false },
+  { value: 400,      suffix: '+', label: 'Goat Capacity',        icon: '🐐', color: '#1db87a', featured: true  },
   { value: 12,       suffix: '',  label: 'Fish Ponds Dev.',       icon: '🐟', color: '#4ade80', featured: false },
   { value: 'Monthly', suffix: '',  label: 'Farmer Field Days',     icon: '🌱', color: '#4ade80', featured: false },
 ]
@@ -286,16 +306,16 @@ function StatBelt() {
 
             <div className="mb-3 text-xl leading-none">{icon}</div>
 
-            <p
+            <div
               className="font-display text-3xl font-black tracking-tight leading-none"
               style={{ color: featured ? '#4ade80' : '#e8f5ec' }}
             >
-              {value === 'Monthly' ? (
-                <span className="text-[18px] font-bold text-[#e8f5ec]">Monthly</span>
+              {typeof value === 'string' ? (
+                <span className="text-[18px] font-bold text-[#e8f5ec]">{value}</span>
               ) : (
-                <AnimatedCounter target={value as number} suffix={suffix} />
+                <AnimatedCounter target={value} suffix={suffix} />
               )}
-            </p>
+            </div>
 
             <p className="mt-2.5 text-[10px] font-semibold uppercase tracking-wider text-white/40">
               {label}
@@ -352,7 +372,7 @@ export const Hero: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  Where Agribusiness
+                  Where agribusiness
                 </motion.span>
                 <motion.span
                   className="block bg-gradient-to-r from-[#4ade80] via-[#1db87a] to-[#16a34a] bg-clip-text text-transparent"
@@ -360,7 +380,7 @@ export const Hero: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.65, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  Becomes Real Profit.
+                  transforms livelihoods.
                 </motion.span>
               </h1>
 
