@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useEffect, useRef } from 'react'
-import { motion, useInView, useMotionValue, useTransform, animate } from 'framer-motion'
+import React, { useState, useEffect, useRef } from 'react'
+import { motion, useInView, useMotionValue, useTransform, animate, AnimatePresence } from 'framer-motion'
 import { Container } from './Container'
 
 // ─── Green Palette Identity ──────────────────────────────────────────────────
@@ -93,36 +93,54 @@ function FloatingParticles() {
   )
 }
 
-const HERO_IMAGE_PATH = '/hero.jpeg'
+// Extended array for cyclic background rotation containing all 5 images
+const HERO_IMAGES = ['/hero.jpeg', '/tomato.jpeg', '/tractor.jpeg', '/cow.jpeg', '/groundnut.jpeg']
 
 function HeroBackground() {
+  const [currentIdx, setCurrentIdx] = useState(0)
+
+  // Rotate images sequentially every 5.5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % HERO_IMAGES.length)
+    }, 5500)
+    return () => clearInterval(timer)
+  }, [])
+
   return (
     <div className="absolute inset-0 h-full w-full overflow-hidden">
-      {/* Structural photo component base layer */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${HERO_IMAGE_PATH})` }}
-        aria-hidden="true"
-      />
+      {/* Structural photo component base layer with smooth fade cross-transitions */}
+      <AnimatePresence mode="popLayout">
+        <motion.div
+          key={HERO_IMAGES[currentIdx]}
+          initial={{ opacity: 0, scale: 1.02 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1.2, ease: 'easeInOut' }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(${HERO_IMAGES[currentIdx]})` }}
+          aria-hidden="true"
+        />
+      </AnimatePresence>
 
       {/* Primary rich deep organic emerald backdrop color transformation */}
-      <div className="absolute inset-0 bg-[#05140b]/80" />
+      <div className="absolute inset-0 bg-[#05140b]/80 z-0" />
 
       {/* Soft gradient text protector overlay */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 z-0"
         style={{
           background:
             'linear-gradient(110deg, #05140b 15%, rgba(5,20,11,0.85) 45%, rgba(5,20,11,0.4) 75%, transparent 100%)',
         }}
       />
 
-      {/* ─── NEW AMBIENT LIGHT LAYER TRANSITIONS ─── */}
+      {/* ─── AMBIENT LIGHT LAYER TRANSITIONS ─── */}
       {/* Lower Left dynamic green light pocket */}
       <motion.div
         animate={{ opacity: [0.15, 0.3, 0.15], scale: [1, 1.1, 1] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full pointer-events-none mix-blend-screen"
+        className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full pointer-events-none mix-blend-screen z-0"
         style={{
           background: 'radial-gradient(circle, rgba(74,222,128,0.2) 0%, transparent 70%)',
           filter: 'blur(60px)',
@@ -133,7 +151,7 @@ function HeroBackground() {
       <motion.div
         animate={{ opacity: [0.2, 0.4, 0.2], x: [-30, 30, -30], y: [-20, 20, -20] }}
         transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-[10%] right-[5%] w-[650px] h-[650px] rounded-full pointer-events-none mix-blend-screen"
+        className="absolute top-[10%] right-[5%] w-[650px] h-[650px] rounded-full pointer-events-none mix-blend-screen z-0"
         style={{
           background: 'radial-gradient(circle, rgba(29,184,122,0.22) 0%, transparent 65%)',
           filter: 'blur(80px)',
@@ -142,7 +160,7 @@ function HeroBackground() {
 
       {/* Bottom section layout fade separator */}
       <div
-        className="absolute inset-x-0 bottom-0 h-48"
+        className="absolute inset-x-0 bottom-0 h-48 z-0"
         style={{ background: 'linear-gradient(to top, #f7f5f0 0%, transparent 100%)' }}
       />
     </div>
@@ -264,7 +282,7 @@ interface StatItem {
 const STATS: StatItem[] = [
   { value: 4,         suffix: '',  label: 'Acre Demo Farm',       icon: '🗺️', color: '#4ade80', featured: false },
   { value: 400,      suffix: '+', label: 'Goat Capacity',        icon: '🐐', color: '#1db87a', featured: true  },
-  { value: 12,       suffix: '',  label: 'Fish Ponds Dev.',       icon: '🐟', color: '#4ade80', featured: false },
+  { value: 12,        suffix: '',  label: 'Fish Ponds Dev.',       icon: '🐟', color: '#4ade80', featured: false },
   { value: 'Monthly', suffix: '',  label: 'Farmer Field Days',     icon: '🌱', color: '#4ade80', featured: false },
 ]
 

@@ -21,7 +21,7 @@ const enterprisePool = [
     description: 'Our flagship commercial enterprise featuring elite Galla and Boer genetics managed within a specialized 50m × 30m bio-secure boma layout.',
     features: ['Galla & Boer Genetics', 'Breeding Stock Sales', 'Weight Performance Track', 'Deworming Frameworks', 'High-Yield Meat Production'],
     icon: Award,
-    image: '/goat-breeding.png',
+    image: '/breed.jpeg', // ─── UPDATED IMAGE PATH ───
     color: 'from-[#16a34a]/20 via-[#4ade80]/10 to-transparent',
     accent: '#16a34a',
   },
